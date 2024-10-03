@@ -63,12 +63,11 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue';
-import facebook from '../assets/icons/facebook.svg';
-import instagram from '../assets/icons/instagram.svg'
-import twitter from '../assets/icons/twitter.svg'
-import linkedin from '../assets/icons/linkedin.svg'
-console.log(facebook);
+// import { reactive, ref } from 'vue';
+import facebook from '../assets/svg/facebook.svg';
+import instagram from '../assets/svg/instagram.svg'
+import twitter from '../assets/svg/twitter.svg'
+import linkedin from '../assets/svg/linkedin.svg'
 
 const icons = {
     'facebook': {
