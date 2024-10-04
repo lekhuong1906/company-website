@@ -1,59 +1,47 @@
 <template>
-    <div class="relative slide">
-        <div class="carousel-indicators absolute bottom-0 flex bg-yellow-100 h-24 w-full justify-center items-center">
-            <ol class="z-50 flex w-4/12 justify-center">
-                <li v-for="(img, i) in images" :key="i"
-                    class="md:w-4 md:h-4 bg-gray-300 rounded-full cursor-pointer mx-2"></li>
-            </ol>
-        </div>
-        <div class="carousel-inner relative overflow-hidden w-full">
-            <div v-for="(img, i) in images" :id="`slide-${i}`" :key="i"
-                :class="`${active === i ? 'active' : 'left-full'}`"
-                class="carousel-item inset-0 relative w-full transform transition-all duration-500 ease-in-out">
-                <img class="block w-full h-96" :src="img" alt="First slide" />
-            </div>
-        </div>
+    <!-- <h1>Hoạt động</h1> -->
+    <div class="swiper-container">
+        <swiper :slides-per-view="1" :pagination="{ clickable: true }" :navigation="true" :loop="true"
+            :autoplay="{ delay: 3000 }">
+            <swiper-slide v-for="(item, index) in items" :key="index">
+                
+                    <img class="w-full h-full" :src="item.image" :alt="'Slide ' + (index + 1)" />
+                
+            </swiper-slide>
+        </swiper>
     </div>
 </template>
 
 <script>
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/swiper-bundle.css';
+import image from '../assets/images/anh-1.jpg'
 export default {
-    data: () => ({
-        images: [
-            "https://picsum.photos/id/237/1024/800",
-            "https://picsum.photos/id/238/1024/800",
-            "https://picsum.photos/id/239/1024/800"
-        ],
-        active: 0
-    }),
-    mounted() {
-        let i = 0;
-        setInterval(() => {
-            if (i > this.images.length - 1) {
-                i = 0;
-            }
-            this.active = i;
-            i++;
-        }, 2000);
-    }
-}
+    components: {
+        Swiper,
+        SwiperSlide,
+    },
+    data() {
+        return {
+            items: [
+                { image: image },
+                { image: image },
+                { image: image },
+            ],
+        };
+    },
+};
 </script>
 
 <style>
-.left-full {
-    left: -100%;
-}
-
-.carousel-item {
-    float: left;
-    position: relative;
-    display: block;
+.swiper-container {
     width: 100%;
-    margin-right: -100%;
-    backface-visibility: hidden;
+    height: fit-content
+    /* Set your desired height */
 }
 
-.carousel-item.active {
-    left: 0;
+.swiper-slide img {
+    width: 100%;
+    height: fit-content;
 }
 </style>

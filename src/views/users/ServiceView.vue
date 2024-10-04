@@ -1,6 +1,6 @@
 <template>
     <main class="mt-[100px]">
-        <section class="bg-blue-white py-24 flex flex-col items-center text-center justify-center mt-[50px]">
+        <section class="bg-blue-white py-24 flex flex-col items-center justify-center mt-[50px]">
             <h1 class="text-4xl lg:text-7xl font-bold text-primary-blue mb-6">
                 Contact
             </h1>
@@ -16,13 +16,6 @@
                     0936000953
                 </p>
             </div>
-            <iframe
-                src="https://maps.google.com/maps?q=Tangesir%20Dates%20Products&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
-                width=1250 height=300 allowfullscreen></iframe>
         </section>
     </main>
 </template>
-
-<script setup>
-
-</script>
