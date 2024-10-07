@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import axios from "axios"
+import axiosInstance from "@/axios";
 import { SERVER } from "@/constants";
 // const jobs = ref(null);
 const getAllJob = async () => {
