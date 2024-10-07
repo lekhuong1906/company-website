@@ -46,18 +46,42 @@
 </template>
 
 <script setup>
-import { useAdminUser } from '@/composables/useAdminUser';
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const store = useStore();
+const router = useRouter();
+
+const errorMessage = ref('');
+
 const form = reactive({
     email: null,
     password: null
 });
 
-
-const auth = useAdminUser();
-
 const login = async () => {
-    await auth.login(form);
-} 
+    try {
+        await store.dispatch('login', form);
+        router.push({ name: 'dashboard' });
+    } catch (error) {
+        console.log(error);
+        errorMessage.value = "Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.";
+    }
+}
+
+// import { useAdminUser } from '@/composables/useAdminUser';
+// import { reactive } from 'vue';
+// const form = reactive({
+//     email: null,
+//     password: null
+// });
+
+
+// const auth = useAdminUser();
+
+// const login = async () => {
+//     await auth.login(form);
+// } 
 
 </script>

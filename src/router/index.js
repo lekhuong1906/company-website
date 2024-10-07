@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store';
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
@@ -10,6 +11,7 @@ import CareerView from '@/views/users/CareerView.vue'
 import ServiceView from '@/views/users/ServiceView.vue'
 
 import LoginView from '@/views/admin/LoginView.vue'
+import AdminDashboard from '@/views/admin/AdminDashboard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,6 +56,12 @@ const router = createRouter({
           name: 'login',
           component: LoginView,
         },
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: AdminDashboard,
+          meta: { requiresAuth: true }
+        }
       ],
     },
     {
@@ -64,14 +72,13 @@ const router = createRouter({
   ]
 })
 
-// // Redirect nếu route yêu cầu xác thực (requiresAuth)
-// router.beforeEach((to, from, next) => {
-//   const isAuthenticated = false // Thay đổi logic này để kiểm tra nếu người dùng đã đăng nhập
-//   if (to.meta.requiresAuth && !isAuthenticated) {
-//     next({ name: 'Login' }) // Redirect tới trang Login nếu không xác thực
-//   } else {
-//     next()
-//   }
-// })
+// Bảo vệ route với meta requiresAuth
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+    next({ name: 'login' }); // Chuyển hướng đến trang login nếu chưa đăng nhập
+  } else {
+    next();
+  }
+});
 
 export default router
