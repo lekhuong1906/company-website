@@ -8,7 +8,7 @@ const login = async ({email, password}) => {
 
     try {
         // Step 2: Send login request
-        const response = await axiosInstance.post('login', ({ email, password }), {
+        const response = await axiosInstance.post('login', (), {
             withCredentials: false,
             withXSRFToken: false,
         });

@@ -62,7 +62,11 @@ const form = reactive({
 
 const login = async () => {
     try {
-        await store.dispatch('login', form);
+        const credentials = {
+            email: form.email,
+            password: form.password
+        };
+        await store.dispatch('login', credentials);
         router.push({ name: 'dashboard' });
     } catch (error) {
         console.log(error);

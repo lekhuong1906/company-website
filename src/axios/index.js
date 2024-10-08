@@ -3,8 +3,8 @@ import { SERVER } from '@/constants';
 
 const axiosInstance = axios.create({
     baseURL: SERVER,
-    withCredentials: false,
-    withXSRFToken: false,
+    withCredentials: true,
+    withXSRFToken: true,
 });
 
 axiosInstance.interceptors.request.use(async (config) => {

@@ -23,9 +23,11 @@ const mutations = {
 };
 
 const actions = {
-    async login({ commit }, { email, password }) {
+    async login({ commit }, credentials) {
         try {
-            const response = await axiosInstance.post(SERVER + 'login', ({ email, password }));
+            console.log(credentials);
+
+            const response = await axiosInstance.post(SERVER + 'login', (credentials));
 
             // Lưu token và user vào store
             commit('SET_TOKEN', response.data.token);
@@ -79,6 +81,7 @@ const actions = {
 const getters = {
     isAuthenticated: (state) => state.isAuthenticated,
     user: (state) => state.user,
+    token: (state) => state.token,
 };
 
 export default {

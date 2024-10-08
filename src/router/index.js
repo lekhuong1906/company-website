@@ -12,6 +12,8 @@ import ServiceView from '@/views/users/ServiceView.vue'
 
 import LoginView from '@/views/admin/LoginView.vue'
 import AdminDashboard from '@/views/admin/AdminDashboard.vue'
+import CareerManagementView from '@/views/admin/CareerManagementView.vue';
+import UserManagementView from '@/views/admin/UserManagementView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,19 +52,29 @@ const router = createRouter({
     {
       path: '/auth',
       component: AuthLayout,
+      meta: { requiresAuth: true },
       children: [
-        {
-          path: 'login',
-          name: 'login',
-          component: LoginView,
-        },
         {
           path: 'dashboard',
           name: 'dashboard',
           component: AdminDashboard,
-          meta: { requiresAuth: true }
+        },
+        {
+          path: 'careers-manage',
+          name: 'careers-manage',
+          component: CareerManagementView,
+        },
+        {
+          path: 'users-manage',
+          name: 'users-manage',
+          component: UserManagementView,
         }
       ],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
     },
     {
       path: '/:pathMatch(.*)*', // Bắt tất cả các route không tồn tại
@@ -74,11 +86,19 @@ const router = createRouter({
 
 // Bảo vệ route với meta requiresAuth
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
-    next({ name: 'login' }); // Chuyển hướng đến trang login nếu chưa đăng nhập
+  const token = localStorage.getItem(('token'))
+  if (to.meta.requiresAuth) {
+    if (!token) {
+      next({ name: 'login' })
+    }
+    next();
   } else {
+    if (token && (to.name == 'login' || to.name == 'register')) {
+      next({ name: 'dashboard' })
+    }
     next();
   }
+
 });
 
 export default router
