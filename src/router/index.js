@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import store from '../store';
+// import store from '../store';
 
 import MainLayout from '@/layouts/MainLayout.vue'
 import AuthLayout from '@/layouts/AuthLayout.vue'
@@ -11,9 +11,13 @@ import CareerView from '@/views/users/CareerView.vue'
 import ServiceView from '@/views/users/ServiceView.vue'
 
 import LoginView from '@/views/admin/LoginView.vue'
-import AdminDashboard from '@/views/admin/AdminDashboard.vue'
-import CareerManagementView from '@/views/admin/CareerManagementView.vue';
-import UserManagementView from '@/views/admin/UserManagementView.vue';
+import AdminDashboard from '@/views/admin/DashboardView.vue'
+
+import CareerManagementView from '@/views/admin/careers/CareerManagementView.vue';
+import AddNewCareer from '@/views/admin/careers/AddNewCareerView.vue';
+import EditCareer from '@/views/admin/careers/EditCareerView.vue';
+
+import UserManagementView from '@/views/admin/users/UserManagementView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -60,10 +64,21 @@ const router = createRouter({
           component: AdminDashboard,
         },
         {
-          path: 'careers-manage',
-          name: 'careers-manage',
+          path: 'career-manage',
+          name: 'career-manage',
           component: CareerManagementView,
         },
+        {
+          path: 'career-add',
+          name: 'career-add',
+          component: AddNewCareer,
+        },
+        {
+          path: 'career-edit',
+          name: 'career-edit',
+          component: EditCareer,
+        },
+        
         {
           path: 'users-manage',
           name: 'users-manage',

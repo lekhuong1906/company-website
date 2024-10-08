@@ -49,7 +49,7 @@ const actions = {
 
     async logout({ commit }) {
         try {
-            await axiosInstance.post(SERVER + 'logout');
+            await axiosInstance.post(SERVER + 'auth/logout');
             commit('LOGOUT');
             localStorage.removeItem('token');
             delete axiosInstance.defaults.headers.common['Authorization'];
