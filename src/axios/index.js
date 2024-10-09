@@ -1,5 +1,9 @@
 import axios from 'axios';
+import { useStore } from 'vuex';
 import { SERVER } from '@/constants';
+
+const token = localStorage.getItem('token');
+
 
 const axiosInstance = axios.create({
     baseURL: SERVER,
@@ -12,6 +16,8 @@ axiosInstance.interceptors.request.use(async (config) => {
     if (config.url !== '/sanctum/csrf-cookie' && !config.headers['X-CSRF-TOKEN']) {
         await axiosInstance.get('/sanctum/csrf-cookie');
     }
+
+    config.headers['Authorization'] = `Bearer ${token}`;
 
     return config;
 }, (error) => {

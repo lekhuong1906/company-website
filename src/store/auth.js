@@ -27,7 +27,7 @@ const actions = {
         try {
             console.log(credentials);
 
-            const response = await axiosInstance.post(SERVER + 'login', (credentials));
+            const response = await axiosInstance.post(SERVER + 'login', credentials);
 
             // Lưu token và user vào store
             commit('SET_TOKEN', response.data.token);
@@ -68,7 +68,7 @@ const actions = {
 
             // Lấy thông tin user từ API nếu cần thiết
             try {
-                const response = await axiosInstance.get('api/user');
+                const response = await axiosInstance.get('user');
                 commit('SET_USER', response.data.user);
             } catch (error) {
                 console.error("Lỗi xác thực:", error);
@@ -81,7 +81,7 @@ const actions = {
 const getters = {
     isAuthenticated: (state) => state.isAuthenticated,
     user: (state) => state.user,
-    token: (state) => state.token,
+    token: (state) => state.token ?? localStorage.getItem('token'),
 };
 
 export default {

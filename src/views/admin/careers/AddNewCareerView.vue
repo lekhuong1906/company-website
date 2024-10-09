@@ -1,20 +1,22 @@
 <template>
-   <h1 class="font-bold text-gray-900 dark:text-white text-4xl mb-8">Add New Career</h1>
+    <h1 class="font-bold text-gray-900 dark:text-white text-4xl mb-8">Add New Career</h1>
     <form>
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Select Department
                 </label>
-                <select id="countries"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Choose a country</option>
-                    <option value="US">United States</option>
-                    <option value="CA">Canada</option>
-                    <option value="FR">France</option>
-                    <option value="DE">Germany</option>
+                <select v-if="data.departments.length" id="countries" class="item__select">
+                    <option selected>Choose one</option>
+                    <option v-for="(item, index) in data.departments" :key="index" :value="item.id">{{ item.name }}
+                    </option>
                 </select>
             </div>
+
+
+            <SelectComponent id="abc" title="Title of content" :dataOptions="data.departments" />
+
+            
             <div>
                 <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Select Level
@@ -74,7 +76,7 @@
                 <label for="number-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Salary Min
                 </label>
-                <input type="number" id="number-input" aria-describedby="helper-text-explanation"
+                <input type="number"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="90210" required />
             </div>
@@ -82,7 +84,7 @@
                 <label for="number-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Salary max
                 </label>
-                <input type="number" id="number-input" aria-describedby="helper-text-explanation"
+                <input type="number"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="90210" required />
             </div>
@@ -94,7 +96,8 @@
                     class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
                     required />
             </div>
-            <label for="negotiable" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Có thể thương lượng</label>
+            <label for="negotiable" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Có thể thương
+                lượng</label>
         </div>
 
         <button type="submit"
@@ -103,4 +106,35 @@
 </template>
 
 <script setup>
+// import { reactive } from 'vue';
+import { useDepartmentsStore } from '@/store/department';
+import { useJobLeversStore } from '@/store/jobLevel';
+import { reactive, onMounted } from 'vue';
+
+import SelectComponent from '@/components/SelectComponent.vue';
+
+const departmentStore = useDepartmentsStore();
+const levelStore = useJobLeversStore();
+const data = reactive({
+    departments: [],
+    levels: []
+});
+
+
+
+onMounted(async () => {
+    await departmentStore.getDepartments();
+    await levelStore.getJobLevels()
+    data.departments = departmentStore.departments;
+    data.levels = levelStore.jobLevels;
+
+    console.log(data.levels.length);
+});
+
 </script>
+
+<style scoped>
+.item__select {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+}
+</style>

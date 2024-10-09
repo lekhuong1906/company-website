@@ -16,6 +16,7 @@
   "dependencies": {
     "@fawmi/vue-google-maps": "^0.9.79",
     "axios": "^1.7.7",
+    "pinia": "^2.2.4",
     "swiper": "^11.1.14",
     "vue": "3",
     "vue-router": "^4.3.3",
