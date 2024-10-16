@@ -101,16 +101,16 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        Product name
+                        Job name
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Color
+                        Department
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Category
+                        Amount
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Price
+                        Status
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Action
@@ -118,55 +118,30 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Apple MacBook Pro 17"
-                    </th>
+                <tr v-for="(job, index) in data.jobs" :key="index"
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td class="px-6 py-4">
-                        Silver
+                        {{ job.name }}
                     </td>
                     <td class="px-6 py-4">
-                        Laptop
+                        {{ job.department_name }}
                     </td>
                     <td class="px-6 py-4">
-                        $2999
+                        {{ job.amount }}
                     </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <td class="px-6 py-4" :class="isRedText(job.status)">
+                        {{ job.status == 1 ? 'Active' : 'Inactive' }}
                     </td>
-                </tr>
-                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Microsoft Surface Pro
-                    </th>
-                    <td class="px-6 py-4">
-                        White
-                    </td>
-                    <td class="px-6 py-4">
-                        Laptop PC
-                    </td>
-                    <td class="px-6 py-4">
-                        $1999
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
-                </tr>
-                <tr class="bg-white dark:bg-gray-800">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Magic Mouse 2
-                    </th>
-                    <td class="px-6 py-4">
-                        Black
-                    </td>
-                    <td class="px-6 py-4">
-                        Accessories
-                    </td>
-                    <td class="px-6 py-4">
-                        $99
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                    <td class="px-6 py-4 flex gap-1">
+                        <router-link :to="{ name: 'career-edit', params: { id: job.id } }" class="hover:text-gray-600">
+                            <edit-icon />
+                        </router-link>
+                        <span class="cursor-pointer text-blue-400 hover:text-blue-600">
+                            <info-icon />
+                        </span>
+                        <span class="cursor-pointer text-red-400 hover:text-red-600">
+                            <trash-icon />
+                        </span>
                     </td>
                 </tr>
             </tbody>
@@ -193,7 +168,39 @@
 <script setup>
 
 import { RouterLink } from 'vue-router';
+import { useJobStore } from '@/store/job';
+import { onMounted, reactive, ref } from 'vue';
 
+import InfoIcon from '@/components/icons/InfoIcon.vue';
+import TrashIcon from '@/components/icons/TrashIcon.vue';
+import EditIcon from '@/components/icons/EditIcon.vue';
+
+const jobStore = useJobStore();
+const data = reactive({
+    jobs: [],
+})
+const jobs = ref({});
+
+onMounted(async () => {
+    await jobStore.getListJob();
+    data.jobs = jobStore.jobs;
+    console.log(jobs.value);
+
+})
+
+const isRedText = (status) => {
+    return status == 1 ? 'item--valid' : 'item--invalid';
+}
 
 
 </script>
+
+<style scoped>
+.item--invalid {
+    @apply text-red-500;
+}
+
+.item--valid {
+    @apply text-green-400
+}
+</style>

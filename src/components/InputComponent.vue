@@ -3,40 +3,41 @@
         <label :for="id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             {{ title }}
         </label>
-        <select :id="id" class="item__select" :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)">
-            <option selected>
-                {{ dataOptions.lengthe> 0 ? 'Choose a level' : 'Loading...' }}
-            </option>
-            <option v-for="(item, index) in dataOptions" :key="index" :value="item.id">{{ item.name }}</option>
-        </select>
+        <input :type="type" :id="id" class="item__input" :placeholder="placeholder" required :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)" />
     </div>
 </template>
 
 <script setup>
-
+defineEmits([
+    'update:modelValue'
+]);
 defineProps({
     id: {
         type: String,
-        required: true
+        required: true,
     },
     title: {
         type: String,
         required: true
     },
-    dataOptions: {
-        type: Array,
+    type: {
+        type: String,
         required: true,
+        default: 'text'
+    },
+    placeholder : {
+        type: String,
+        default: 'Enter to write something ...'
     },
     modelValue : {
         required : true
     }
 })
-
 </script>
 
 <style scoped>
-.item__select {
+.item__input {
     @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
 }
 </style>

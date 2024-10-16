@@ -35,7 +35,7 @@
                     <div class="sidebar__item cursor-pointer group" v-on:click="logout">
                         <logout-icon />
                         <span class="flex-1 ms-3 whitespace-nowrap">Logout</span>
-                    </div>Í
+                    </div>
                 </li>
             </ul>
         </div>

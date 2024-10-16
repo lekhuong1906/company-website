@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import axiosInstance from '@/axios';
 import { SERVER } from '@/constants';
 
-export const useDepartmentsStore = defineStore('counter', {
+export const useDepartmentsStore = defineStore('department', {
     state: () => ({
         departments: [],
         loading: false,

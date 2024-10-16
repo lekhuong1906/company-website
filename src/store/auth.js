@@ -27,7 +27,7 @@ const actions = {
         try {
             console.log(credentials);
 
-            const response = await axiosInstance.post(SERVER + 'login', credentials);
+            const response = await axiosInstance.post('/login', credentials);
 
             // Lưu token và user vào store
             commit('SET_TOKEN', response.data.token);

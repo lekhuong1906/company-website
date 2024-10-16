@@ -74,9 +74,10 @@ const router = createRouter({
           component: AddNewCareer,
         },
         {
-          path: 'career-edit',
+          path: 'career-edit/:id',
           name: 'career-edit',
           component: EditCareer,
+          props : true
         },
         
         {

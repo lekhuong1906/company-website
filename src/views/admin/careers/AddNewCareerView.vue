@@ -1,107 +1,52 @@
 <template>
     <h1 class="font-bold text-gray-900 dark:text-white text-4xl mb-8">Add New Career</h1>
-    <form>
+    <form @submit.prevent="addNewJob">
         <div class="grid gap-6 mb-6 md:grid-cols-2">
-            <div>
-                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Select Department
-                </label>
-                <select v-if="data.departments.length" id="countries" class="item__select">
-                    <option selected>Choose one</option>
-                    <option v-for="(item, index) in data.departments" :key="index" :value="item.id">{{ item.name }}
-                    </option>
-                </select>
-            </div>
 
+            <SelectComponent id="department" title="Select Department" :dataOptions="data.departments"
+                v-model="data.form.department_id" />
 
-            <SelectComponent id="abc" title="Title of content" :dataOptions="data.departments" />
+            <SelectComponent id="job-level" title="Select Job Level" :dataOptions="data.levels"
+                v-model="data.form.level" />
 
-            
-            <div>
-                <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Select Level
-                </label>
-                <select id="countries"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Choose a level</option>
-                    <option value="US">United States</option>
-                    <option value="CA">Canada</option>
-                    <option value="FR">France</option>
-                    <option value="DE">Germany</option>
-                </select>
-            </div>
-            <div>
-                <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Job Name
-                </label>
-                <input type="text" id="last_name"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Doe" required />
-            </div>
-            <div>
-                <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
-                <input type="tel" id="company"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Flowbite" pattern="[0-9]" required />
-            </div>
-        </div>
-        <div class="mb-6">
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Description
-            </label>
-            <textarea id="message" rows="4"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here..."></textarea>
-        </div>
-        <div class="mb-6">
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Requirement
-            </label>
-            <textarea id="message" rows="4"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here..."></textarea>
+            <InputComponent id="job-name" type="text" title="Enter Job Name" placeholder="Enter Job Name"
+                v-model="data.form.name" />
+
+            <InputComponent id="job-amount" type="number" title="Amount" placeholder="Amount"
+                v-model="data.form.amount" />
+
+                <InputComponent id="end-date" type="date" title="End Date" placeholder="Amount"
+                v-model="data.form.end_date" />
+
         </div>
 
         <div class="mb-6">
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                Benefits
-            </label>
-            <textarea id="message" rows="4"
-                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Write your thoughts here..."></textarea>
+            <TextAreaComponent id="description" title="Job Descriptions" placeholder="Enter job descriptions"
+                v-model="data.form.description" />
+        </div>
+
+        <div class="mb-6">
+            <TextAreaComponent id="requirement" title="Job Requirements" placeholder="Enter job requirements"
+                v-model="data.form.requirements" />
+        </div>
+
+        <div class="mb-6">
+            <TextAreaComponent id="benefit" title="Benefits" placeholder="Enter benefits"
+                v-model="data.form.benefits" />
         </div>
 
         <div class="grid gap-6 mb-6 md:grid-cols-2">
-            <div>
-                <label for="number-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Salary Min
-                </label>
-                <input type="number"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="90210" required />
-            </div>
-            <div>
-                <label for="number-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Salary max
-                </label>
-                <input type="number"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="90210" required />
-            </div>
+            <InputComponent id="salary-min" type="number" title="Salary Min" placeholder="Enter salary min"
+                v-model="data.form.salary_min" />
+
+            <InputComponent id="salary-max" type="number" title="Salary Max" placeholder="Enter salary max"
+                v-model="data.form.salary_max" />
         </div>
 
-        <div class="flex items-start mb-6">
-            <div class="flex items-center h-5">
-                <input id="negotiable" type="checkbox" value=""
-                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                    required />
-            </div>
-            <label for="negotiable" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Có thể thương
-                lượng</label>
-        </div>
+        <InputCheckboxComponent id="negotiable" labelTitle="Negotiable" v-model="data.form.negotiable" />
 
-        <button type="submit"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+        <ButtonComponent id="submit" type="submit" text="Submit" />
+
     </form>
 </template>
 
@@ -110,16 +55,45 @@
 import { useDepartmentsStore } from '@/store/department';
 import { useJobLeversStore } from '@/store/jobLevel';
 import { reactive, onMounted } from 'vue';
+import { useJobStore } from '@/store/job';
 
 import SelectComponent from '@/components/SelectComponent.vue';
+import InputComponent from '@/components/InputComponent.vue';
+import TextAreaComponent from '@/components/TextAreaComponent.vue';
+import InputCheckboxComponent from '@/components/InputCheckboxComponent.vue';
+import ButtonComponent from '@/components/ButtonComponent.vue';
+import { useRouter } from 'vue-router';
 
 const departmentStore = useDepartmentsStore();
 const levelStore = useJobLeversStore();
+const jobStore = useJobStore()
+const router = useRouter();
+
 const data = reactive({
     departments: [],
-    levels: []
+    levels: [],
+    form: {
+        department_id: null,
+        level: null,
+        name: '',
+        amount: null,
+        end_date : null,
+        description: '',
+        requirements: '',
+        benefits: '',
+        salary_min: null,
+        salary_max: null,
+        negotiable: 0,
+    }
 });
 
+const addNewJob = async () => {
+    const response = await jobStore.addNewJob(data.form)
+
+    if (response)
+        router.push({ name: 'career-manage' })
+    console.log('Add Fail')
+}
 
 
 onMounted(async () => {
@@ -132,9 +106,3 @@ onMounted(async () => {
 });
 
 </script>
-
-<style scoped>
-.item__select {
-    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-}
-</style>
